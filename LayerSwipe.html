@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>LayerSwipe 4.10</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  <script type="text/javascript">
+    var package_path = window.location.href.substring(0, window.location.href.lastIndexOf('/'));
+    var dojoConfig = {
+        packages: [{
+            name: "application",
+            location: package_path +'/layerSwipe/js'
+        }]
+    };
+</script>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.10/esri/css/main.css">
+  <script src="https://js.arcgis.com/4.10/"></script>
+  <script src="layerSwipe/js/jquery-1.11.3.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="layerSwipe/css/LayerSwipe.css">
+  <script>
+    require([
+      "esri/Map",
+	  'esri/views/MapView',
+      "esri/views/SceneView",
+      "esri/layers/SceneLayer",
+      "esri/layers/TileLayer",
+      "application/LayerSwipe"
+    ], function(Map, MapView, SceneView, SceneLayer,TileLayer,LayerSwipe) {
+
+      // Create Map
+      var map = new Map({
+        basemap: "dark-gray",
+        ground: "world-elevation"
+      });
+      var view = new MapView({
+        // An instance of Map or WebScene
+        map: map,
+        // The id of a DOM element (may also be an actual DOM element)
+        container: "viewDiv"
+      });
+      var layerUrl1 = "https://arcgis.storymaps.esri.com/arcgis/rest/services/Diabetes/USA_Diabetes_Rates_2009/MapServer";
+      var layerUrl2 = "https://arcgis.storymaps.esri.com/arcgis/rest/services/Diabetes/USA_Obesity_Rates_2009/MapServer";
+      var layer1 = new TileLayer({
+        id:"layer1",
+        url:layerUrl1
+      });
+      var layer2 = new TileLayer({
+        id:"layer2",
+        url:layerUrl2
+      });
+      view.map.addMany([layer1,layer2]);
+      var swipeWidget = null;
+      view.when(function(){
+        var type = $("#swipeTypeSelect").val();
+        swipeWidget = new LayerSwipe({
+            type: type,
+            view:view,
+            layers: [layer2]
+        }, "viewDiv");
+        swipeWidget.startup();
+      });
+      $("#detoryBtn").click(function(){
+        swipeWidget.destroy();
+      });
+      $("#startupBtn").click(function(){
+        swipeWidget.startup();
+      });
+      $("#swipeTypeSelect").change(function(){
+        var type = $("#swipeTypeSelect").val();
+        swipeWidget = new LayerSwipe({
+            type: type,
+            view:view,
+            layers: [layer2]
+        }, "viewDiv");
+        swipeWidget.startup();
+      });
+      $("#viewTypeSelect").change(function(){
+        var type = $("#viewTypeSelect").val();
+		view=null;
+		if(type=='2D'){
+		  view = new MapView({
+			map: map,
+			container: "viewDiv"
+		  });
+		}else{
+		  view = new SceneView({
+			map: map,
+			container: "viewDiv"
+		  });		
+		}
+		view.map.addMany([layer1,layer2]);
+		swipeWidget.destroy();
+		view.when(function(){
+			var type = $("#swipeTypeSelect").val();
+			swipeWidget = new LayerSwipe({
+				type: type,
+				view:view,
+				layers: [layer2]
+			}, "viewDiv");
+			swipeWidget.startup();
+		  });
+      });	  
+	  
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv">
+  </div>
+  <div style="position:absolute;right:30px;top:20px;z-index:30;">
+    <select id="viewTypeSelect" style="height:23px">
+      <option value="2D" selected>2D</option>
+      <option value="3D">3D</option>
+      <!-- <option value="horizontal">窗口</option> -->
+    </select>  
+    <select id="swipeTypeSelect" style="height:23px">
+      <option value="vertical" selected>纵向</option>
+      <option value="horizontal">横向</option>
+      <!-- <option value="horizontal">窗口</option> -->
+    </select>
+    <button id="startupBtn">启动</button>
+    <button id="detoryBtn">销毁</button>
+  </div>
+</body>
+</html>
