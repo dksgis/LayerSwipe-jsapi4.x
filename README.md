@@ -1,7 +1,7 @@
 ## LayerSwipe-jsapi4.x
 基于ArcGIS JS API 4.x 的地图卷帘插件  
 
-[在线访问](https://github.com/dksgis/LayerSwipe-jsapi4.x/blob/master/LayerSwipe.html)  
+[在线访问](https://dksgis.github.io/LayerSwipe-jsapi4.x/LayerSwipe.html)
 
 ### 基于作者GIS-RC的[LayerSwipe-jsapi4.10](https://github.com/GIS-RC/LayerSwipe-jsapi4.10)代码重构
   1.重构插件的declare方式；  
