@@ -9,7 +9,7 @@
   3.优化鼠标移动监听，优化left和top计算；
   
 #### MapView示例
-![image](https://github.com/dingkesong/LayerSwipe-jsapi4.x/blob/master/layerSwipe/images/demo1.png)
+![](https://github.com/dingkesong/LayerSwipe-jsapi4.x/blob/master/layerSwipe/images/demo1.png)
   
 #### SceneView示例
-![image](https://github.com/dingkesong/LayerSwipe-jsapi4.x/blob/master/layerSwipe/images/demo2.png)
+![](https://github.com/dingkesong/LayerSwipe-jsapi4.x/blob/master/layerSwipe/images/demo2.png)
